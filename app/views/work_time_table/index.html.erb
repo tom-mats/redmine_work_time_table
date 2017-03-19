@@ -1,7 +1,7 @@
 <h2>WorkTimeTableController#index</h2>
-<%= link_to '<<', {:controller => 'work_time_table', :action => 'index', :month => (@month - 1.month).strftime(DATE_FMT)} %>
+<%= link_to '<<', {:controller => 'work_time_table', :action => 'index', :month => (@month - 1.month).strftime('%Y-%m-%d')} %>
 <%= @month.strftime('%Y-%m-%d') %>
-<%= link_to '>>', {:controller => 'work_time_table', :action => 'index', :month => (@month + 1.month).strftime(DATE_FMT)} %>
+<%= link_to '>>', {:controller => 'work_time_table', :action => 'index', :month => (@month + 1.month).strftime('%Y-%m-%d')} %>
 <table>
   <thead>
     <tr>
@@ -11,9 +11,11 @@
     </tr>
   </thead>
   <tbody>
-    <% (@month.beginning_of_month..@month.end_of_month).each |day| %>
+    <% (@month.beginning_of_month.to_date..@month.end_of_month.to_date).each do |day| %>
     <tr>
-      <%= day.strftime(DATE_FMT) %>
+      <th>
+        <%= day.strftime('%Y-%m-%d') %>
+      </th>
     </tr>
     <% end %>
   </tbody>
