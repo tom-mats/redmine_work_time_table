@@ -2,20 +2,25 @@
 <%= link_to '<<', {:controller => 'work_time_table', :action => 'index', :month => (@month - 1.month).strftime('%Y-%m-%d')} %>
 <%= @month.strftime('%Y-%m-%d') %>
 <%= link_to '>>', {:controller => 'work_time_table', :action => 'index', :month => (@month + 1.month).strftime('%Y-%m-%d')} %>
+<%= @time_log %>
 <table>
   <thead>
     <tr>
       <th>
         Date
       </th>
+      <% @activities.each do |a| %>
+      
+      <% end %>
     </tr>
   </thead>
   <tbody>
-    <% (@month.beginning_of_month.to_date..@month.end_of_month.to_date).each do |day| %>
+    <% (@month.beginning_of_month.to_date..@month.end_of_month ).each do |day| %>
     <tr>
-      <th>
+      <td>
         <%= day.strftime('%Y-%m-%d') %>
-      </th>
+
+      </td>
     </tr>
     <% end %>
   </tbody>
