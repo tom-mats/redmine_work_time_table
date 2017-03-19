@@ -1,0 +1,5 @@
+<h2>WorkTimeTableController#index</h2>
+<%= @user %>
+<%= link_to '<<', {:controller => 'work_time_table', :action => 'index', :month => (@month - 1.month).strftime('%Y-%m-%d')} %>
+<%= @month.strftime('%Y-%m-%d') %>
+<%= link_to '>>', {:controller => 'work_time_table', :action => 'index', :month => (@month + 1.month).strftime('%Y-%m-%d')} %>
