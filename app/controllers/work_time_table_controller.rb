@@ -9,18 +9,17 @@ class WorkTimeTableController < ApplicationController
     end_date = @month.end_of_month.to_date
     @activities = []
     @time_log = {}
+    (from_date..end_date).each { |e| @time_log[e.strftime(DATE_FMT)] = {}  }
     TimeEntryActivity.all().each do |activity|
-      @time_log[activity.to_s] = {}
       @activities << activity.to_s
-      time_log_activity = @time_log[activity.to_s]
+      a = activity.to_s
       TimeEntry.where("activity_id = :id AND user_id = :user AND spent_on >= :from AND spent_on <= :to", {:id => activity.id, :user => User.current, :from => from_date, :to => end_date }).each do |obj|
-        k = obj.spent_on.strftime(DATE_FMT)
-        if time_log_activity.has_key?(k)
-          time_log_activity[k] += obj.hours
-        else
-          time_log_activity[k] = obj.hours
-        end
+        d = obj.spent_on.strftime(DATE_FMT)
+        @time_log[d][a] = (@time_log[d][a] || 0.0) + obj.hours
       end
+    end
+    respond_to do |format|
+      format.html
     end
   end
 

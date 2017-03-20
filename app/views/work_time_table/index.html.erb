@@ -3,10 +3,10 @@
 <%= @month.strftime('%Y-%m') %>
 <%= link_to '>>', {:controller => 'work_time_table', :action => 'index', :month => (@month + 1.month).strftime('%Y-%m-%d')} %>
 
-<table>
+<table class = "table worktime">
   <thead>
     <tr>
-      <th>
+      <th class="date">
         Date
       </th>
       <% @activities.each do |a| %>
@@ -14,20 +14,27 @@
           <%= a %>
         </th>
       <% end %>
+      <th>
+        Total
+      </th>
     </tr>
   </thead>
   <tbody>
-    <% (@month.beginning_of_month.to_date..@month.end_of_month ).each do |day| %>
-    <tr>
+    <% (@month.beginning_of_month.to_date..@month.end_of_month ).each_with_index do |day, i| %>
+    <tr class="row <%= (i + 1) % 2 == 0 ? "even" : "odd"%>">
       <% d = day.strftime('%Y-%m-%d') %>
-      <td>
+      <td class="date">
         <%= d %>
       </td>
+      <% total = 0.0 %>
       <% @activities.each do |a| %>
-        <td>
-          <%= @time_log[a][d] || 0.0 %>
+        <td class="activity <%= a %>">
+          <%= @time_log[d][a] || 0.0 %>
         </td>
       <% end %>
+      <td class = "total">
+        <%= @time_log[d].map{ |k,v| v }.inject{ |sum, n| sum + n } || 0.0 %>
+      </td>
     </tr>
     <% end %>
   </tbody>
