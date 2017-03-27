@@ -32,7 +32,7 @@
       <% @activities.each do |k, a| %>
         <td class="activity <%= "activity_#{k}" %>">
           <% if @time_log[d][a] %>
-            <%= link_to @time_log[d][a], {:controller => 'timelog', :action => 'index', :user_id => 'me', :activity_id => k, :spent_on => d} %>
+            <%= link_to @time_log[d][a].round(1), {:controller => 'timelog', :action => 'index', :user_id => 'me', :activity_id => k, :spent_on => d} %>
             <% total_each[a] += @time_log[d][a].to_f %>
             <% total_each[:full] += @time_log[d][a].to_f %>
           <% else %>
@@ -52,7 +52,7 @@
     </td>
     <% @activities.each do |k, a| %>
       <td class="total activity <%= "activity_#{k}"%>">
-        <%= total_each[a] %>
+        <%= total_each[a].to_s + '(' + (total_each[a] * 100.0/total_each[:full]).round(1).to_s+ '%)' %>
       </td>
     <% end %>
     <td class="total month">
