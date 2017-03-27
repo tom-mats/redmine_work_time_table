@@ -9,8 +9,10 @@
       <th class="date">
         Date
       </th>
+      <% total_each = {:full => 0} %>
       <% @activities.each do |k, a| %>
         <th>
+          <% total_each[a] = 0.0 %>
           <%= a %>
         </th>
       <% end %>
@@ -28,18 +30,33 @@
       </td>
       <% total = 0.0 %>
       <% @activities.each do |k, a| %>
-        <td class="activity <%= a %>">
+        <td class="activity <%= "activity_#{k}" %>">
           <% if @time_log[d][a] %>
             <%= link_to @time_log[d][a], {:controller => 'timelog', :action => 'index', :user_id => 'me', :activity_id => k, :spent_on => d} %>
+            <% total_each[a] += @time_log[d][a].to_f %>
+            <% total_each[:full] += @time_log[d][a].to_f %>
           <% else %>
             <%= '-' %>
           <% end %>
         </td>
       <% end %>
-      <td class = "total">
+      <td class = "total day">
         <%= @time_log[d].map{ |k,v| v }.inject{ |sum, n| sum + n } || 0.0 %>
       </td>
     </tr>
     <% end %>
   </tbody>
+  <tfoot>
+    <td>
+      <%= @month.strftime('%Y-%m') %>
+    </td>
+    <% @activities.each do |k, a| %>
+      <td class="total activity <%= "activity_#{k}"%>">
+        <%= total_each[a] %>
+      </td>
+    <% end %>
+    <td class="total month">
+      <%= total_each[:full] %>
+    </td>
+  </tfoot>
 </table>
