@@ -9,7 +9,7 @@
       <th class="date">
         Date
       </th>
-      <% @activities.each do |a| %>
+      <% @activities.each do |k, a| %>
         <th>
           <%= a %>
         </th>
@@ -27,9 +27,13 @@
         <%= d %>
       </td>
       <% total = 0.0 %>
-      <% @activities.each do |a| %>
+      <% @activities.each do |k, a| %>
         <td class="activity <%= a %>">
-          <%= @time_log[d][a] || 0.0 %>
+          <% if @time_log[d][a] %>
+            <%= link_to @time_log[d][a], {:controller => 'timelog', :action => 'index', :user_id => 'me', :activity_id => k, :spent_on => d} %>
+          <% else %>
+            <%= '-' %>
+          <% end %>
         </td>
       <% end %>
       <td class = "total">
