@@ -41,7 +41,7 @@
         </td>
       <% end %>
       <td class = "total day">
-        <%= @time_log[d].map{ |k,v| v }.inject{ |sum, n| sum + n } || 0.0 %>
+        <%= (@time_log[d].map{ |k,v| v }.inject{ |sum, n| sum + n } || 0.0).round(1) %>
       </td>
     </tr>
     <% end %>
@@ -52,11 +52,11 @@
     </td>
     <% @activities.each do |k, a| %>
       <td class="total activity <%= "activity_#{k}"%>">
-        <%= total_each[a].to_s + '(' + (total_each[a] * 100.0/total_each[:full]).round(1).to_s+ '%)' %>
+        <%= total_each[a].round(1).to_s + '(' + (total_each[a] * 100.0/total_each[:full]).round(1).to_s+ '%)' %>
       </td>
     <% end %>
     <td class="total month">
-      <%= total_each[:full] %>
+      <%= total_each[:full].round(1) %>
     </td>
   </tfoot>
 </table>
